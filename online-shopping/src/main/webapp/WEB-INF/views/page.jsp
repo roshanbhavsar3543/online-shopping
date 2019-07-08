@@ -20,41 +20,51 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-
 <title>Online Shopping - ${title}</title>
+<script>
+	window.menu = '${title}';
+</script>
 
 <!-- Bootstrap core CSS -->
 <link href="${css}/bootstrap.min.css" rel="stylesheet">
 
 	<!-- Custom styles for this template -->
 <link href="${css}/myapp.css" rel="stylesheet">
+
+	<!-- Theme from BootsWatch.com -->
+<link href="${css}/bootswatch.css" rel="stylesheet">
 </head>
 
 <body>
+	<div class="wrapper">
+		<!-- Navigation -->
+		<%@include file="./shared/navbar.jsp"%>
 
-	<!-- Navigation -->
-	<%@include file="./shared/navbar.jsp" %>
+		<div class="content">
+			<!-- Page Content -->
+			<c:if test="${userClickHome == true}">
+				<%@include file="home.jsp"%>
+			</c:if>
 
-	<!-- Page Content -->
-	<c:if test="${userClickHome == true}">
-	<%@include file="home.jsp" %>
-	</c:if>
-	
-	<c:if test="${userClickAbout == true}">
-	<%@include file="about.jsp" %>
-	</c:if>
-	
-	<c:if test="${userClickContact == true}">
-	<%@include file="contact.jsp" %>
-	</c:if>
-	<br/><br/>
-	<!-- Footer -->
-	<%@include file="./shared/footer.jsp"%>
+			<c:if test="${userClickAbout == true}">
+				<%@include file="about.jsp"%>
+			</c:if>
 
-	<!-- Bootstrap core JavaScript -->
-	<script src="${js}/jquery.js"></script>
-	<script src="${js}/bootstrap.bundle.min.js"></script>
+			<c:if test="${userClickContact == true}">
+				<%@include file="contact.jsp"%>
+			</c:if>
+			<br /> <br />
+		</div>
+		<!-- Footer -->
+		<%@include file="./shared/footer.jsp"%>
 
+		<!-- Bootstrap core JavaScript -->
+		<script src="${js}/jquery.js"></script>
+		<script src="${js}/bootstrap.bundle.min.js"></script>
+
+		<!-- Self Code -->
+		<script src="${js}/myapp.js"></script>
+	</div>
 </body>
 
 </html>
