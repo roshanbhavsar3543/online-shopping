@@ -14,6 +14,12 @@
 		<spring.version>4.3.6.RELEASE</spring.version>
 	</properties>
 	<dependencies>
+		<!-- Link BackEnd project with Front End -->
+		<dependency>
+			<groupId>net.roshan</groupId>
+		  	<artifactId>shoppingBackEnd</artifactId>
+		  	<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- JAVA EE API -->
 		<dependency>
 			<groupId>javax</groupId>

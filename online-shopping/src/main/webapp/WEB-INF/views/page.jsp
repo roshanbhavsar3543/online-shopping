@@ -32,7 +32,7 @@
 <link href="${css}/myapp.css" rel="stylesheet">
 
 	<!-- Theme from BootsWatch.com -->
-<link href="${css}/bootswatch.css" rel="stylesheet">
+<%-- <link href="${css}/bootswatch.css" rel="stylesheet"> --%>
 </head>
 
 <body>
@@ -53,7 +53,10 @@
 			<c:if test="${userClickContact == true}">
 				<%@include file="contact.jsp"%>
 			</c:if>
-			<br /> <br />
+			
+			<c:if test="${userClickCategoryProduct == true or userClickAllProducts == true}">
+				<%@include file="listProduct.jsp"%>
+			</c:if>
 		</div>
 		<!-- Footer -->
 		<%@include file="./shared/footer.jsp"%>
