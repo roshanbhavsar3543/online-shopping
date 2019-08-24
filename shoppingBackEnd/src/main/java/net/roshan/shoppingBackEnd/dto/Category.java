@@ -1,12 +1,32 @@
 package net.roshan.shoppingBackEnd.dto;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Category {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column
 	private int id;
+	
+	@Column(name="name")
 	private String name;
+	
+	@Column(name="description")
 	private String description;
+	
+	@Column(name="image_url")
 	private String imageUrl;
+	
+	@Column(name="is_active")
 	private boolean isActive=true;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -37,6 +57,13 @@ public class Category {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+	
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + ", description=" + description + ", imageUrl=" + imageUrl
+				+ ", isActive=" + isActive + "]";
+	}
+	
 	
 	
 	

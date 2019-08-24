@@ -1,5 +1,10 @@
 package net.roshan.onlineshopping.controller;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,14 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.roshan.onlineshopping.exception.ProductNotFoundException;
 import net.roshan.shoppingBackEnd.dao.CategoryDAO;
+import net.roshan.shoppingBackEnd.dao.ProductDAO;
 import net.roshan.shoppingBackEnd.dto.Category;
+import net.roshan.shoppingBackEnd.dto.Product;
 
 @Controller
 public class PageController {
 	
+	private static Logger logger= LoggerFactory.getLogger(PageController.class);
+	
 	@Autowired
 	private CategoryDAO categoryDao;
+	@Autowired
+	ProductDAO productDAO;
 	
 	@RequestMapping(value= {"/","/home","/index"})
 	public ModelAndView index() {
@@ -22,6 +34,8 @@ public class PageController {
 		mv.addObject("title", "Home");
 		mv.addObject("categories", categoryDao.getCategories());
 		mv.addObject("userClickHome",true);
+		logger.info("Inside Page Controller Home Page-Info");
+		logger.debug("Inside Page Controller Home Page-Debug");
 		return mv;
 	}
 	
@@ -39,6 +53,7 @@ public class PageController {
 		ModelAndView mv =new ModelAndView("page");
 		mv.addObject("title", "Contact Us");
 		mv.addObject("userClickContact",true);
+		
 		return mv;
 	}
 	
@@ -66,16 +81,7 @@ public class PageController {
 		mv.addObject("categories", categoryDao.getCategories());
 		mv.addObject("userClickCategoryProduct",true);
 		return mv;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 	
 	//Below Methods Are just for Practice
 	
@@ -97,5 +103,25 @@ public class PageController {
 		}
 		mv.addObject("greeting", greeting);
 		return mv;
+	}
+	
+	/*
+	 * Show Single Product
+	 */
+	@RequestMapping(value="/show/{id}/product") 
+	public ModelAndView showSingleProduct(@PathVariable int id)throws ProductNotFoundException {
+		ModelAndView mv = new ModelAndView("page");
+		Product product = productDAO.get(id);
+		
+		if(product==null) {
+			throw new ProductNotFoundException();
+		}
+		product.setViews(product.getViews()+1);
+		productDAO.updateProduct(product);
+		mv.addObject("title",product.getName());
+		mv.addObject("product",product);
+		mv.addObject("userClickedOnShowSingleProduct", true);
+		
+		return mv;		
 	}
 }

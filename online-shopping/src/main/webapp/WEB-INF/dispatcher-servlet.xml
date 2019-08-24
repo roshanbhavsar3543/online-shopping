@@ -10,8 +10,8 @@
    http://www.springframework.org/schema/mvc
    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
    
-   <context:component-scan base-package="net.roshan.onlineshopping.controller"/>
-   <context:component-scan base-package="net.roshan.shoppingBackEnd.daoImpl"/>
+   <context:component-scan base-package="net.roshan.onlineshopping"/>
+   <context:component-scan base-package="net.roshan.shoppingBackEnd"/>
    
    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
    		<property name="prefix" value="/WEB-INF/views/"/>
