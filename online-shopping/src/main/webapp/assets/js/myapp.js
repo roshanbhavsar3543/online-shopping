@@ -25,6 +25,19 @@ $(function(){
 		break;
 	}
 	
+	//to tackle CSRF token
+	var token = $('meta[name="_csrf"]').attr('content');
+	var header = $('meta[name="_csrf_header"]').attr('content');
+	
+	if(typeof  token!== 'undefined' && typeof  header!== 'undefined' ){
+		if(token.length>0 && header.length>0){
+			//set the token header in ajax
+			$(document).ajaxSend(function(e,xhr,options){
+				xhr.setRequestHeader(header,token);
+			});
+		}		
+	}
+	
 	//Code For data Table Product Active
 	var $table = $('#productListTable');
 	
@@ -212,7 +225,72 @@ $(function(){
 	}
 	// End -> data  table for admin
 	
+	//Start Client Side Validation  category Form Validation
+	var $categoryForm = $('#categoryForm');
+	if($categoryForm.length){
+		$categoryForm.validate({
+			rules:{
+				/*field name*/
+				name :{
+					required: true,
+					minlength:2
+				},
+				
+				description :{
+					required: true
+				}
+			},
+			messages:{
+				name :{
+					required: 'Please Add Category Name !',
+					minlength:'Category Name Should not be less than 2 characters.'
+				},
+				description :{
+					required: 'Please Add Description of Category'
+				}				
+			},
+			errorElement:'em',
+			errorPlacement:function(error,element){
+				error.addClass('help-block');
+				error.insertAfter(element);
+			}			
+		});		
+	}
+	//End Client Side Validation  category Form Validation
 	
+	
+	//Start Client Side Validation  Login Form 
+	var $loginForm = $('#loginForm');
+	if($loginForm.length){
+		$loginForm.validate({
+			rules:{
+				/*field name*/
+				username :{
+					required: true,
+					email:true
+				},
+				
+				password :{
+					required: true
+				}
+			},
+			messages:{
+				username :{
+					required: 'Please Enter the Username !',
+					email:'Please Enter Valid Email Address'
+				},
+				password :{
+					required: 'Please Enter the Password'
+				}				
+			},
+			errorElement:'em',
+			errorPlacement:function(error,element){
+				error.addClass('help-block');
+				error.insertAfter(element);
+			}			
+		});		
+	}
+	//End Client Side Validation  Login Form 
 	
 });
 

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -123,5 +124,34 @@ public class PageController {
 		mv.addObject("userClickedOnShowSingleProduct", true);
 		
 		return mv;		
+	}
+	
+	
+	//having similar mapping as that of flow id
+	@RequestMapping(value="/register")
+	public ModelAndView register() {
+		ModelAndView mv =new ModelAndView("page");
+		return mv;
+	}
+	
+	@RequestMapping(value="/login")
+	public ModelAndView login(@RequestParam(name="error",required=false)String error) {
+		ModelAndView mv =new ModelAndView("login");
+		if(error!=null) {
+			mv.addObject("message","Invalid Username And Password");
+		}
+		mv.addObject("title","Login");
+		
+		return mv;
+	}
+	
+	//access denied page
+	@RequestMapping(value="/access-denied")
+	public ModelAndView accessDenied() {
+		ModelAndView mv =new ModelAndView("error");
+		mv.addObject("errorTitle","Aha ! Caught you.");
+		mv.addObject("errorDescription","You Are not authorised to view this page");
+		mv.addObject("title","403 Access Denied");
+		return mv;
 	}
 }

@@ -1,0 +1,43 @@
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/security
+        https://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- We have moved the below component scan code from dispatcher servlet to spring security-->
+	<!-- becuase here we are using dataSource bean , this will get initialize before dispatcher servlet-->
+	<context:component-scan base-package="net.roshan.shoppingBackEnd"/>
+	<http pattern="/resources/**" security="none"/>
+	<http>
+		<!-- Only Admin Access -->
+		<intercept-url pattern="/manage/**" access="hasAuthority('ADMIN')" />
+		<!-- Only User Access -->
+		<intercept-url pattern="/cart/**" access="hasAuthority('USER')" />
+		<!-- All Users Access -->
+		<intercept-url pattern="/**" access="permitAll" />
+		<form-login login-page="/login"/>   <!-- use same URL in controller -->
+		<access-denied-handler error-page="/access-denied"/>
+		<logout />
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider>
+		<!-- If we use  hasRole then ROLE_ is mandatory
+			and If we use  hasAuthority then ROLE_ is not mandatory -->
+			<!-- <user-service>			
+				<user name="roshan" password="roshan1234" authorities="USER, ADMIN" />
+			</user-service>	 -->	
+			<jdbc-user-service data-source-ref="dataSource"
+			users-by-username-query="select email, password, enabled from user_detail where email = ?"
+			authorities-by-username-query="select email, role from user_detail where email = ?"
+			/>
+		</authentication-provider> 		
+	</authentication-manager>
+
+</beans:beans>
