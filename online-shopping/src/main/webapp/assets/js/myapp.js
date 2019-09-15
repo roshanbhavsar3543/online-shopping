@@ -13,7 +13,11 @@ $(function(){
 	case 'Manage Products':
 		$('#manageProducts').addClass('active');
 		
-		break;	
+		break;
+	case 'User Cart':
+		$('userCart').addClass('active');
+		
+		break;
 	default :
 		if(menu=='Home'){
 			$('#home').addClass('active');
@@ -93,12 +97,16 @@ $(function(){
 		        	  mRender: function(data, type, row) {
 		        		  var str = '';
 		        		  str += '<a href="'+window.contextRoot+ '/show/'+data+'/product" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span> </a> &#160;';
-		        		  
-		        		 if(row.quantity<1){
-		        			 str += '<a href="javaScript:void(0)" class="btn btn-success disabled"> <strike> <span class="glyphicon glyphicon-shopping-cart"></span> </strike> </a>';
-		        		 }else{
-		        			 str += '<a href="'+window.contextRoot+ '/cart/add/'+data+'/product" class="btn btn-success btn-sm"> <span class="glyphicon glyphicon-shopping-cart"> </span> </a>';
-		        		 } 		   
+		        		  if(userRole=='ADMIN'){
+		        				 str += '<a href="'+window.contextRoot+ '/manage/'+data+'/product" class="btn btn-warning btn-sm"> <span class="glyphicon glyphicon-pencil"> </span> </a>';
+		        		}else{
+		        			if(row.quantity<1){
+			        			 str += '<a href="javaScript:void(0)" class="btn btn-success disabled"> <strike> <span class="glyphicon glyphicon-shopping-cart"></span> </strike> </a>';
+			        		 }else{
+			        				 str += '<a href="'+window.contextRoot+ '/cart/add/'+data+'/product" class="btn btn-success btn-sm"> <span class="glyphicon glyphicon-shopping-cart"> </span> </a>';  			         			
+			        		 } 
+		        		}
+		        		 		   
 		        		 return str;
 					}
 				}			
@@ -291,6 +299,38 @@ $(function(){
 		});		
 	}
 	//End Client Side Validation  Login Form 
+	
+	
+	//Start - Handling refresh cart button
+	$('button[name="refreshCart"]').click(function(){
+		//fetch cart line id
+		var cartLineId = $(this).attr('value');
+		var countElement = $('#count_'+cartLineId);
+		var originalCount = countElement.attr('value');
+		
+		var currentCount = countElement.val();
+		//work only count has change
+		if(currentCount!=originalCount){
+			if(currentCount<1 || currentCount >3){
+				//user has given value below 1 or above 3
+				countElement.val(originalCount);
+				bootbox.alert({
+					size: 'medium',
+					title:'Error',
+					message:'Product count should be minimum 1 and maximum 3.'
+				});
+			}else{
+				var updateUrl = window.contextRoot+'/cart/'+cartLineId+'/update?count='+currentCount;
+				//forward this to controller
+				
+				window.location.href = updateUrl;
+			}
+		}
+		
+		
+	});
+	
+	//End - Handling refresh cart button 
 	
 });
 

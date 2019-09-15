@@ -13,6 +13,9 @@
 	<!-- We have moved the below component scan code from dispatcher servlet to spring security-->
 	<!-- becuase here we are using dataSource bean , this will get initialize before dispatcher servlet-->
 	<context:component-scan base-package="net.roshan.shoppingBackEnd"/>
+	<beans:bean id="passwordEncoder" 
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+		
 	<http pattern="/resources/**" security="none"/>
 	<http>
 		<!-- Only Admin Access -->
@@ -23,11 +26,12 @@
 		<intercept-url pattern="/**" access="permitAll" />
 		<form-login login-page="/login"/>   <!-- use same URL in controller -->
 		<access-denied-handler error-page="/access-denied"/>
-		<logout />
+		<!-- <logout /> -->
 	</http>
 	
 	<authentication-manager>
 		<authentication-provider>
+		<password-encoder ref="passwordEncoder"/>
 		<!-- If we use  hasRole then ROLE_ is mandatory
 			and If we use  hasAuthority then ROLE_ is not mandatory -->
 			<!-- <user-service>			

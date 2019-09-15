@@ -40,7 +40,7 @@ public class UserDAOImpl implements UserDAO{
 			return false;
 		}		
 	}
-
+/*
 	@Override
 	public boolean updateCart(Cart cart) {
 		try {
@@ -50,7 +50,7 @@ public class UserDAOImpl implements UserDAO{
 			ex.printStackTrace();
 			return false;
 		}
-	}
+	}*/
 	
 	public User getByEmail(String email) {
 		String selectQuery = "from User where email=:email";

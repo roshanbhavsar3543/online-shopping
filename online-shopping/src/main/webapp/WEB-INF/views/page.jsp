@@ -111,6 +111,10 @@
 			<c:if test="${userClickManageProducts == true}">
 				<%@include file="managedProducts.jsp"%>
 			</c:if>
+			<!-- Show Cart -->
+			<c:if test="${userClickShowCart == true}">
+				<%@include file="cart.jsp"%>
+			</c:if>
 		</div>
 		<!-- Footer -->
 		<%@include file="./shared/footer.jsp"%>

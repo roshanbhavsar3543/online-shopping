@@ -3,6 +3,7 @@ package net.roshan.onlineshopping.handler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 
@@ -17,6 +18,8 @@ public class RegisterHandler {
 	
 	@Autowired
 	private UserDAO userDao;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	public RegisterModel init() {
 		
@@ -39,6 +42,9 @@ public class RegisterHandler {
 			user.setCart(cart);
 			cart.setUser(user);
 		}
+		//Encode password
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
 		userDao.addUser(user);
 		
 		Address billing = modal.getAddress();

@@ -196,7 +196,6 @@ input:checked + .slider:before {
 	
 }
 
-
 .cartImg {
 	width: 100px;
 	height: 100px;
@@ -275,3 +274,8 @@ input:checked + .slider:before {
 .table-responsive {
 	overflow-x: inherit; 
 }
+
+
+
+
+
